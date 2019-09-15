@@ -42,12 +42,16 @@ function swipeRight(sleep = config.sleep) {
 }
 
 function delay(t, val) {
+    const t_low = Math.round(t - (t / 3));
+    const t_high = Math.round(t + (t / 3));
+    const t_randomized = Math.round(Math.random() * (t_high - t_low) + t_low);
+
     return new Promise(function (resolve) {
-        console.log('Sleeping for ' + t + 'ms')
+        console.log('Sleeping for ' + t_randomized + 'ms')
         setTimeout(function () {
-            console.log('Sleept for ' + t + 'ms')
+            console.log('Sleept for ' + t_randomized + 'ms')
             resolve(val);
-        }, t);
+        }, t_randomized);
     });
 }
 
