@@ -2,50 +2,50 @@
 
 const
     config = require('./config'),
-    { promisify } = require('util'),
+    {promisify} = require('util'),
     execCb = require('child_process').exec,
-    exec = promisify(execCb)
+    exec = promisify(execCb);
 
 function sendInput(args, t) {
-    var cmd = config.adbPath + ' shell input ' + args
-    console.log('Executing ' + cmd)
+    var cmd = config.adbPath + ' shell input ' + args;
+    console.log('Executing ' + cmd);
     return exec(cmd).then((res) => {
         console.log(`stdout: ${res.stdout}`);
         console.error(`stderr: ${res.stderr}`);
-        return delay(t)
+        return delay(t);
     })
 }
 
 function mi8toAnyScreen(x, y) {
-    var s = [x / 1080, y / 2248]
-    console.log(s[0] + ', ' + s[1] + ' /*' + ptoPx(s[0], s[1]) + '*/')
+    var s = [x / 1080, y / 2248];
+    console.log(s[0] + ', ' + s[1] + ' /*' + ptoPx(s[0], s[1]) + '*/');
 }
 
 function ptoPx(x, y) {
-    return '' + Math.floor(x * config.screenSize[0]) + ' ' + Math.floor(y * config.screenSize[1])
+    return '' + Math.floor(x * config.screenSize[0]) + ' ' + Math.floor(y * config.screenSize[1]);
 }
 
 
 function tap(x, y, sleep = config.sleep) {
-    console.log('tapping ' + x + ' ' + y)
-    return sendInput('tap ' + ptoPx(x, y), sleep)
+    console.log('tapping ' + x + ' ' + y);
+    return sendInput('tap ' + ptoPx(x, y), sleep);
 }
 
 function longTap(x, y, sleep = config.sleep) {
-    console.log('longTapping ' + x + ' ' + y)
-    return sendInput('swipe ' + ptoPx(x, y) + ' ' + ptoPx(x, y) + ' ' + sleep, sleep)
+    console.log('longTapping ' + x + ' ' + y);
+    return sendInput('swipe ' + ptoPx(x, y) + ' ' + ptoPx(x, y) + ' ' + sleep, sleep);
 }
 
 function swipeRight(sleep = config.sleep) {
-    console.log('swiping right')
-    return sendInput('swipe ' + ptoPx(0.8333333333333334, 0.5338078291814946) + ' ' + ptoPx(0.18518518518518517, 0.556049822064057) + ' 100', sleep)
+    console.log('swiping right');
+    return sendInput('swipe ' + ptoPx(0.8333333333333334, 0.5338078291814946) + ' ' + ptoPx(0.18518518518518517, 0.556049822064057) + ' 100', sleep);
 }
 
 function delay(t, val) {
     return new Promise(function (resolve) {
-        console.log('Sleeping for ' + t + 'ms')
+        console.log('Sleeping for ' + t + 'ms');
         setTimeout(function () {
-            console.log('Sleept for ' + t + 'ms')
+            console.log('Sleept for ' + t + 'ms');
             resolve(val);
         }, t);
     });
@@ -78,7 +78,7 @@ function renamePok() {
     ).then(() =>
         swipeRight() //goto next poke
     ).then(() =>
-        renamePok()) //repeat
+        renamePok()); //repeat
 }
 
-renamePok()
+renamePok();
